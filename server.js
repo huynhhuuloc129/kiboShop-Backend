@@ -5,15 +5,13 @@ const port = process.env.PORT || 3000;
 
 dotenv.config({ path: './config.env' });
 
-const DB = process.env.DATABASE;
+const DB = process.env.DATABASE.replace('<password>','slstbackend');
 
-mongoose
-  .connect(DB, {
-    useNewUrlParser: true,
-  })
-  .then((con) => {
-    console.log('DB connection successful');
-  });
+mongoose.connect(DB, {
+  useNewURLParser: true
+}).then((con) => {
+  console.log('Database connect successfully');
+})
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}...`);
