@@ -34,7 +34,7 @@ const keyboardSchema = new mongoose.Schema({
     required: true,
   },
   Price: {
-    type: String,
+    type: Number,
     required: true,
   },
   Size: {
