@@ -3,18 +3,24 @@ const Keyboard = require('./../models/keyboards');
 exports.getAllKeyboard = async (req, res) => {
   try {
     // BUILD QUERY
-    // 1) Filtering
+    // 1a) Filtering
     const queryObj = { ...req.query };
     const excludedFields = ['page', 'sort', 'limit', 'field'];
     excludedFields.forEach((el) => delete queryObj[el]);
 
-    // 2) Advanced filtering
+    // 1b) Advanced filtering
 
     let queryStr = JSON.stringify(queryObj);
     queryStr = queryStr.replace(/\b{gte|gt|lte|lt}\b/g, (match) => `$${match}`);
     console.log(JSON.parse(queryStr));
 
-    const query = Keyboard.find(JSON.parse(queryStr));
+    let query = Keyboard.find(JSON.parse(queryStr));
+
+    // 2) Sorting
+    if (req.query.sort) {
+      query = query.sort(req.query.sort);
+    }
+
     // EXECUTE QUERY
     const keyboards = await query;
     res.status(200).json({
