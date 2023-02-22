@@ -14,7 +14,7 @@ exports.getAllKeyboard = async (req, res) => {
     queryStr = queryStr.replace(/\b{gte|gt|lte|lt}\b/g, (match) => `$${match}`);
     console.log(JSON.parse(queryStr));
 
-    let query = Keyboard.find(JSON.parse(queryStr));
+    let query = Keyboard.find(JSON.parse(queryStr)).then().catch();
 
     // 2) Sorting
     if (req.query.sort) {
@@ -39,7 +39,7 @@ exports.getAllKeyboard = async (req, res) => {
 };
 exports.getOneKeyboard = async (req, res) => {
   try {
-    const keyboard = await Keyboard.findById(req.params.id);
+    const keyboard = await Keyboard.findById(req.params.id).then().catch();
 
     res.status(200).json({
       status: 'success',
@@ -56,7 +56,7 @@ exports.getOneKeyboard = async (req, res) => {
 };
 exports.createKeyboard = async (req, res) => {
   try {
-    const newKeyboard = await Keyboard.create(req.body);
+    const newKeyboard = await Keyboard.create(req.body).then().catch();
 
     res.status(201).json({
       status: 'success',
@@ -73,7 +73,7 @@ exports.createKeyboard = async (req, res) => {
 };
 exports.deleteKeyboard = async (req, res) => {
   try {
-    await Keyboard.findByIdAndDelete(req.params.id);
+    await Keyboard.findByIdAndDelete(req.params.id).then().catch();
 
     res.status(204).json({
       status: 'success',
